@@ -2,7 +2,7 @@ import asyncio
 
 from telebot.types import Message
 
-from config_data.config import ADMIN_ID, COMMANDS
+from config_data.config import COMMANDS
 from database.db_select import count_users, active_user, statistic_command, ADMIN
 from loader import bot
 

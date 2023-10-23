@@ -131,3 +131,4 @@ dmypy.json
 project/.env
 /Source data/
 /log/
+/DashBot/database/stat.db
