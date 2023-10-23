@@ -17,7 +17,7 @@ def active_user():
     with db:
         user = Command.select(fn.Max(fn.Count(Command.user)).group_by(Command.user))
         print(user)
-        return user
+        return user.get()
 
 
 def statistic_command():

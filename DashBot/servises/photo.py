@@ -9,15 +9,6 @@ from loader import bot
 from servises.bot_states import UserInfoState
 
 
-def get_action(state: UserInfoState):
-    if state == UserInfoState.sticker:
-        return "photo_to_sticker"
-    elif state == UserInfoState.baw:
-        return "change_to_baw"
-    elif state == UserInfoState.background:
-        return "change_to_background"
-
-
 def change_image(photo_id: str, action_key: str) -> str:
     action = {
         "remove_background": remove_background,

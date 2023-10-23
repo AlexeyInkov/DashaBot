@@ -1,5 +1,5 @@
 from telebot import TeleBot
-from telebot.async_telebot import StateMemoryStorage
+from telebot import StateMemoryStorage
 from loguru import logger
 
 from config_data import config

@@ -5,8 +5,8 @@ from telebot.types import Message
 from config_data.config import COMMANDS, DEVELOPER_ID
 from database.db_save import save_in_db, save_task
 from loader import bot, logger
-from servises.bot_states import UserInfoState
-from servises.photo import change_image, get_action
+from servises.bot_states import UserInfoState, get_action
+from servises.photo import change_image
 from template.answer_text import command_answer
 
 
@@ -26,33 +26,35 @@ def bot_select_command(message: Message):
     bot.reply_to(message, text)
 
 
-@bot.message_handler(state=[UserInfoState.baw, UserInfoState.background, UserInfoState.sticker])
+@bot.message_handler(content_types=['photo'])
 def bot_select_state(message: Message):
     state = bot.get_state(message.from_user.id, message.chat.id)
     action = get_action(state)
-    if message.photo:
+    if action:
         file_path = change_image(message.photo[2].file_id, action)
+        if state == 'UserInfoState:sticker':
+            bot.send_sticker(message.chat.id, open(file_path, "rb"))
+        else:
+            bot.send_photo(message.chat.id, open(file_path, "rb"))
         bot.delete_state(message.from_user.id, message.chat.id)
         os.remove(file_path)
         logger.info('{} (id {}) команда {}, прислал картинку, статус удален, отправлен ответ, файл удален'.format(
             message.from_user.full_name,
             message.from_user.id, action))
-        if state == UserInfoState.sticker:
-            bot.send_sticker(message.chat.id, open(file_path, "rb"))
-        else:
-            bot.send_photo(message.chat.id, open(file_path, "rb"))
     else:
-        logger.info('{} (id {}) команда {}, прислал не картинку'.format(
+        logger.info('{} (id {}) состояние {}, прислал картинку'.format(
             message.from_user.full_name,
-            message.from_user.id, action))
-        bot.send_message(message.from_user.id, 'Это не фото')
+            message.from_user.id,
+            action)
+        )
+        bot.send_message(message.from_user.id, 'Классное фото, сначала выбери команду')
 
 
-@bot.message_handler(state=[UserInfoState.todo])
+@bot.message_handler(state=UserInfoState.todo)
 def bot_send_todo_developer(message: Message):
     bot.forward_message(DEVELOPER_ID, message.chat.id, message.message_id)
     # Добавляем задание в БД
-    add_task_todo(message)
+    save_task(message)
     # TODO Проверять выполнение задания по БД
     bot.delete_state(message.from_user.id, message.chat.id)
     logger.info('{} (id {}) команда {} задание отправлено состояние удалено'.format(
