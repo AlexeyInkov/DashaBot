@@ -13,6 +13,7 @@ else:
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = os.getenv("ADMIN_ID")
 DEVELOPER_ID = os.getenv("DEVELOPER_ID")
+
 COMMANDS = {
     "start": ("Запустить бота",),
     "help": ("Вывести справку",),

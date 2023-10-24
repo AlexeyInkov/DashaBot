@@ -2,7 +2,7 @@ import asyncio
 
 from telebot.types import Message
 
-from config_data.config import COMMANDS
+from config_data.config import COMMANDS, DEVELOPER_ID, ADMIN_ID
 from database.db_select import count_users, active_user, statistic_command, ADMIN
 from loader import bot
 
@@ -27,10 +27,13 @@ def command_answer(message: Message):
         return f"Привет, {message.from_user.full_name}!\n" \
                f"Напиши мне, что я должен научиться делать и я это буду изучать"
     elif message.text[1:] == 'statistic':
-        return f"Привет, {message.from_user.full_name}!\n"\
-               f"Я работал с {count_users()} users\n"\
-               f"Самый активный user {active_user()}\n"\
-               f"Статистика по командам{statistic_command()}\n"
+        if message.from_user.id in map(int, (ADMIN_ID, DEVELOPER_ID)):
+            return f"Привет, {message.from_user.full_name}!\n"\
+                   f"Я работал с {count_users()} users\n"\
+                   f"Самый активный user {active_user()}\n"\
+                   f"Статистика по командам:{statistic_command()}\n"
+        else:
+            return f"{message.from_user.full_name}!\nВы не можете смотреть этот раздел"
 
 
 

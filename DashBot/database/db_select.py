@@ -15,15 +15,15 @@ def count_users():
 
 def active_user():
     with db:
-        user = Command.select(fn.Max(fn.Count(Command.user)).group_by(Command.user))
-        print(user)
-        return user.get()
+        users = Command.select(Command.user, fn.Count(Command.user).alias('count')).group_by(Command.user)
+        return users
 
 
 def statistic_command():
     with db:
+        answer = "\n"
         commands = Command.select(Command.command, fn.Count(Command.command).alias("count"))\
             .group_by(Command.command).order_by('count')
         for command in commands:
-            print(command.command, " - ", command.count)
-        return commands
+            answer += f'команду {command.command[1:]} вызывали {command.count} раз\n'
+        return answer

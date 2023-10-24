@@ -23,7 +23,7 @@ def bot_select_command(message: Message):
     else:
         bot.set_state(message.from_user.id, COMMANDS.get(message.text[1:])[1], message.chat.id)
     save_in_db(message)
-    bot.reply_to(message, text)
+    bot.reply_to(message, text, parse_mode='HTML')
 
 
 @bot.message_handler(content_types=['photo'])
