@@ -1,4 +1,4 @@
-from peewee import fn
+from peewee import fn, SQL
 
 from database.model import db, User, Command
 from config_data.config import ADMIN_ID
@@ -23,7 +23,7 @@ def statistic_command():
     with db:
         answer = "\n"
         commands = Command.select(Command.command, fn.Count(Command.command).alias("count"))\
-            .group_by(Command.command).order_by('count')
+            .group_by(Command.command).order_by(SQL('count'))
         for command in commands:
             answer += f'команду {command.command[1:]} вызывали {command.count} раз\n'
         return answer
