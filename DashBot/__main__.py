@@ -15,9 +15,9 @@ if __name__ == "__main__":
         bot.add_custom_filter(StateFilter(bot))
         bot.set_my_commands([BotCommand(i, COMMANDS[i][0]) for i in COMMANDS])
         
-	keep_alive()  # чтобы не закрылся Replit
+        # keep_alive()  # РѕР±РјР°РЅРєР° РґР»СЏ Replit
         
-	bot.infinity_polling()
+        bot.infinity_polling()
 
     except Exception:
         import traceback
