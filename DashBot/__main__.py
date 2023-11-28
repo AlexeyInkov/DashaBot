@@ -17,7 +17,7 @@ if __name__ == "__main__":
         
         # keep_alive()  # обманка для Replit
         
-        bot.infinity_polling()
+        bot.polling(none_stop=True)
 
     except Exception:
         import traceback
