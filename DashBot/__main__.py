@@ -5,7 +5,7 @@ from database.model import db, close_db
 from loader import bot
 import handlers
 from telebot.custom_filters import StateFilter
-from no_close import keep_alive
+# from no_close import keep_alive
 
 from loguru import logger
 
@@ -17,7 +17,7 @@ if __name__ == "__main__":
         
         # keep_alive()  # обманка для Replit
         
-        bot.infinity_polling()
+        bot.polling(none_stop=True)
 
     except Exception:
         import traceback

@@ -1,5 +1,6 @@
-FROM python:3.11.2-alpine
-WORKDIR /app
+FROM python:3.10-slim
+RUN mkdir bot
+WORKDIR /bot
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .

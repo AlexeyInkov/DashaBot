@@ -1,4 +1,4 @@
-version: '3.11'
+version: '3.10'
 
 services:
   bot:
@@ -6,4 +6,4 @@ services:
       context: .
     volumes:
       - /app
-    env_file: ./template/.env
+    env_file: ./.env
