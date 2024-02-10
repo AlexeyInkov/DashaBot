@@ -1,12 +1,14 @@
-from peewee import fn, SQL
+from peewee import fn, SQL, DoesNotExist
 
 from database.model import db, User, Command
 from config_data.config import ADMIN_ID
 
 
 with db:
-    ADMIN = User.get(user_id=ADMIN_ID).full_name
-
+    try:
+        ADMIN = User.get(user_id=ADMIN_ID).full_name
+    except DoesNotExist:
+        ADMIN = "Admin false"
 
 def count_users():
     with db:
