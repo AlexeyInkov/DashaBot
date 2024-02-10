@@ -132,3 +132,4 @@ project/.env
 /Source data/
 /log/
 /DashBot/database/stat.db
+/stat.db
